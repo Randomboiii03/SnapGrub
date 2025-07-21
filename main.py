@@ -2,6 +2,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.api import auth, feedback, menu, orders, subscriptions, tenants
 from app.core.config import get_settings
+from app.core.redis import init_redis
+from app.events.listeners import start_redis_listeners
 
 settings = get_settings()
 
@@ -21,3 +23,8 @@ app.include_router(menu.router, prefix=f"{settings.API_V1_STR}/menu", tags=["Men
 app.include_router(orders.router, prefix=f"{settings.API_V1_STR}/orders", tags=["Orders"])
 app.include_router(subscriptions.router, prefix=f"{settings.API_V1_STR}/subscriptions", tags=["Subscriptions"])
 app.include_router(tenants.router, prefix=f"{settings.API_V1_STR}/tenants", tags=["Tenants"])
+
+@app.on_event("startup")
+async def startup():
+    init_redis(app)
+    await start_redis_listeners()

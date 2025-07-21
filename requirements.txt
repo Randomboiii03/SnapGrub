@@ -5,7 +5,7 @@ pydantic
 sqlalchemy
 psycopg2-binary
 alembic
-redis
+redis[asyncio]
 python-multipart
 python-jose[cryptography]
 pyjwt
