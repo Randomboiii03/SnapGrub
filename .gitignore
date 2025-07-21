@@ -1,0 +1,8 @@
+# Unecessary files
+__pycache__/
+
+# Virtual environment
+.venv/
+
+# Environment variables
+.env
